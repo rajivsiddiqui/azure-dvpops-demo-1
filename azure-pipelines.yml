@@ -20,3 +20,22 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/*.war'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'warfile'
+    publishLocation: 'Container'
+- task: AzureRmWebAppDeployment@5
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'DevOpsSteps-Lab(c06c7a88-53db-45b2-bc68-8a85fa7a204c)'
+    appType: 'webAppLinux'
+    WebAppName: 'devopssteps-webapp'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+    DeploymentTypeLinux: 'oneDeploy'
+
+    
