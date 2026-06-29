@@ -29,3 +29,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'warfile'
     publishLocation: 'Container'
+- task: AzureRmWebAppDeployment@5
+  inputs:
+    ConnectionType: 'AzureRM'
+    appType: 'webAppLinux'
+    WebAppName: 'devopssteps-webapp'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+    DeploymentTypeLinux: 'oneDeploy'
